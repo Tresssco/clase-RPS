@@ -43,17 +43,19 @@ Pese a eso me parece que el RPS debería ser tratado como episódico, ya que cad
 - **_Conocido_**: Esta característica se refiere a si el agente conoce como opera el entorno, es decir, las reglas. En el RPS se dan los resultados para todas las acciones tomadas, es decir, se saben las posibilidades de resultados.
 
 
-2.**Identificación do tipo de axente e estrutura**
+2.**Identificación del agente y estructura**
+
+En este apartado se elige el tipo de agente que vamos a emplear para programar las decisiones a tomar en el RPS. En el apartado 2.4 del libro se explican varios tipos de agentes y debemos escoger uno de ahí.
+
+En mi caso elegí el "Model-based reflex agents", un agente bastante sencillo con la característica de poseer "memoria", es decir, un historial. Se ajusta bien al juego RPS porque vamos a decidir que sacar en cada ronda en base a las jugadas de nuestro oponente, intentando predecir el movimiento o extraer un patrón de juego con el objetivo de maximizar las victorias.
+
+La estructura de nuestro agente adaptada al RPS seria la siguiente:
 
 
+![Diagrama Agente RPS](./doc/Agente_RPS.png)
 
+Primero el agente observa el entorno del RPS. En base al historial de juegos analizamos y sabemos el estado actual del juego: el numero total de rondas jugadas, que movimientos uso el rival, la frecuencia y posibles patrones de jugadas. Con esta información, a través de un algoritmo se intenta predecir el movimiento que nuestro oponente utilizará. Una vez sabiendo la jugada del rival nos falta saber que jugada deberíamos hacer, para eso habría que aplicar las reglas del RPS y saber que movimiento es el que nos dará la victoria. Sabiendo el movimiento del rival y el que el agente debe tomar solo nos queda actuar para conocer el estado en el que se queda el entorno.
 
-
-
-
-Selecciona un tipo de axente adecuado para o RPS e debuxa un modelo preciso da estrutura do axente, incluíndo os compoñentes específicos do tipo elixido, baseándoche nos conceptos do capítulo 2 _"Intelligent Agents"_.
-
-É moi importante que ademáis da figura escribas un texto enumerando e xustificando a presenza dous comppñentes recollidos na figura anterior. Sen explicacións a figura non se avalía.
 
 3.**Implementación en Python**
 
