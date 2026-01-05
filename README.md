@@ -59,11 +59,13 @@ Primero el agente observa el entorno del RPS. En base al historial de juegos ana
 
 3.**Implementación en Python**
 
-Implementa en Python todos os compoñentes da estrutura do axente de forma correcta e eficiente, creando unha función axente que xoga ao RPS seguindo a lóxica do tipo de axente seleccionado. O código cumpre cos principios SOLID, especialmente SRP e OCP, permitindo estender a lóxica a outras versións do xogo. **A estratexia implementada en `get_computer_action()` é creativa e busca maximizar o rendemento do axente**.
+El código implementado en src/RPS_implementacion funciona de la siguiente manera:
 
-O teu código pode e debe ser modular seguindo o principio SRP, pero **a execución da lóxica ten que invocarse dende a función `get_computer_action()`.
+Se introduce un historial de jugadas y otro del resultado de las jugadas. En el estado inicial del mundo al no existir jugadas previas el agente tomará una elección al azar de su jugada. A partir de la primera jugada del rival ya existirán datos en el historial de jugadas. El agente jugará lo contrario a la anterior jugada del rival, por ejemplo, si el rival la anterior jugada jugó papel el agente jugará tijera.
 
-A rúbrica da implementación Python [na segunda folla "RPS" deste libro de cálculo.](https://docs.google.com/spreadsheets/d/1r93uZnPmioY0U1D7EDtV1uveKYIOlenkz8uuqks4KXM/) Loguéate antes na túa conta de gmail con acceso ao noso Drive.
+Esta estrategia es sencilla y tiene el problema de que el rival se de cuenta de nuestra estrategia, en ese caso siempre ganaría el rival. Por eso se implementó una estrategia adicional. En caso de que el rival gane 3 rondas consecutivamente las dos próximas jugadas del agente serán idénticas a la anterior jugada del rival, esto es porque, en caso de detectar que el rival sabe nuestra estrategia, también sabremos que va a sacar y podremos contrarrestarlo. Un ejemplo: Si llevamos 3 rondas seguidas perdidas y el rival en la última jugada jugó papel, podemos intuir que sabe que sacaremos tijera y el entonces sacará piedra, por eso sacaremos papel. Esto lo repetimos 2 veces para que el rival no intuya que es simplemente una estrategia adicional.
+
+El código sigue los principios SOLID y se podria extender la lógica a versiones más complejas del RPS.
 
 4.**Extensión ao RPS + Lizzard Spock**
 
