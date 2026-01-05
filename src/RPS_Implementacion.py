@@ -12,10 +12,14 @@ class Agent:
     def __init__(self):
         self.user_history = []
         self.results_history = []
+        self.alt_strategy_rounds = 0
 
     def update_history(self,user_move : GameAction, result: str):
         self.user_history.append(user_move)
         self.results_history.append(result)
+
+        if self.alt_strategy_rounds > 0:
+            self.alt_strategy_rounds -= 1
 
     def last_pick(self):
         return self.user_history[-1] if self.user_history else None    
@@ -30,6 +34,8 @@ class ModelBasedReflexStrategy:
         
         # New strategy in case we detect the rival knows our strategy
         if len(last_results) == 3 and all(r == "loss" for r in last_results):
+            state.alt_strategy_rounds = 2
+        if state.alt_strategy_rounds > 0 and last is not None:
             return GameAction(last)
         
         # History strategy
