@@ -11,53 +11,68 @@ class GameAction(IntEnum):
 class Agent:
     def __init__(self):
         self.user_history = []
+        self.results_history = []
 
-    def update_history(self,user_move):
+    def update_history(self,user_move : GameAction, result: str):
         self.user_history.append(user_move)
+        self.results_history.append(result)
 
     def last_pick(self):
         return self.user_history[-1] if self.user_history else None    
 
+    def last_results(self, n=3):
+        return self.results_history[-n:] if len(self.results_history) >= n else self.results_history
 
 class ModelBasedReflexStrategy:
     def choose_action(self, state: Agent) -> GameAction:
         last = state.last_pick()
-        return random.choice(list(GameAction)) if last is None else GameAction((last + 1) % 3)
+        last_results = state.last_results(3)
+        
+        # New strategy in case we detect the rival knows our strategy
+        if len(last_results) == 3 and all(r == "loss" for r in last_results):
+            return GameAction(last)
+        
+        # History strategy
+        if last is None:
+            return random.choice(list(GameAction))
+        return GameAction((last + 1) % 3)
 
 # Initialize new classes
 agent_state = Agent()
 strategy = ModelBasedReflexStrategy()
 
-
 def assess_game(user_action, computer_action):
     if user_action == computer_action:
         print(f"User and computer picked {user_action.name}. Draw game!")
+        return "draw"
 
-    # You picked Rock
     elif user_action == GameAction.Rock:
         if computer_action == GameAction.Scissors:
             print("Rock smashes scissors. You won!")
+            return "loss"  # perspectiva del computador
         else:
             print("Paper covers rock. You lost!")
+            return "win"
 
-    # You picked Paper
     elif user_action == GameAction.Paper:
         if computer_action == GameAction.Rock:
             print("Paper covers rock. You won!")
+            return "loss"
         else:
             print("Scissors cuts paper. You lost!")
+            return "win"
 
-    # You picked Scissors
     elif user_action == GameAction.Scissors:
         if computer_action == GameAction.Rock:
             print("Rock smashes scissors. You lost!")
+            return "win"
         else:
             print("Scissors cuts paper. You won!")
+            return "loss"
 
 
-def get_computer_action(user_action: GameAction):
+def get_computer_action():
     computer_action = strategy.choose_action(agent_state)
-    agent_state.update_history(user_action)
     print(f"Computer picked {computer_action.name}.")
 
     return computer_action
@@ -88,8 +103,9 @@ def main():
             print(f"Invalid selection. Pick a choice in range {range_str}!")
             continue
 
-        computer_action = get_computer_action(user_action)
-        assess_game(user_action, computer_action)
+        computer_action = get_computer_action()
+        result = assess_game(user_action, computer_action)
+        agent_state.update_history(user_action, result)
 
         if not play_another_round():
             break
