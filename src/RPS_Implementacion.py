@@ -8,6 +8,26 @@ class GameAction(IntEnum):
     Paper = 1
     Scissors = 2
 
+class Agent:
+    def __init__(self):
+        self.user_history = []
+
+    def update_history(self,user_move):
+        self.user_history.append(user_move)
+
+    def last_pick(self):
+        return self.user_history[-1] if self.user_history else None    
+
+
+class ModelBasedReflexStrategy:
+    def choose_action(self, state: Agent) -> GameAction:
+        last = state.last_pick()
+        return random.choice(list(GameAction)) if last is None else GameAction((last + 1) % 3)
+
+# Initialize new classes
+agent_state = Agent()
+strategy = ModelBasedReflexStrategy()
+
 
 def assess_game(user_action, computer_action):
     if user_action == computer_action:
@@ -35,9 +55,9 @@ def assess_game(user_action, computer_action):
             print("Scissors cuts paper. You won!")
 
 
-def get_computer_action():
-    computer_selection = random.randint(0, len(GameAction) - 1)
-    computer_action = GameAction(computer_selection)
+def get_computer_action(user_action: GameAction):
+    computer_action = strategy.choose_action(agent_state)
+    agent_state.update_history(user_action)
     print(f"Computer picked {computer_action.name}.")
 
     return computer_action
@@ -68,7 +88,7 @@ def main():
             print(f"Invalid selection. Pick a choice in range {range_str}!")
             continue
 
-        computer_action = get_computer_action()
+        computer_action = get_computer_action(user_action)
         assess_game(user_action, computer_action)
 
         if not play_another_round():
