@@ -1,6 +1,11 @@
-## Estructura do proxecto / rubrica
+Práctica RPS
+=============================
+   * [Entorno de tareas](#1entorno-de-tareas)
+   * [Agente y estructura](#2identificación-del-agente-y-estructura)
+   * [Implementacion en python](#3implementación-en-python)
+   * [Extension Lizzard-Spock](#4extensión-ao-rps--lizzard-spock)
 
-1.**Entorno de tareas**
+## 1.**Entorno de tareas**
 
 En este apartado especificaremos las características del entorno de tareas del RPS (Rock, Paper, Scissors), basandonos en el epígrafe _"2.3.2 Properties of task environments"_ del libro _Intelligent Agents_ do libro _IA: A modern approach, Russell & Norvig_ justificaremos las respuestas.
 
@@ -43,7 +48,7 @@ Pese a eso me parece que el RPS debería ser tratado como episódico, ya que cad
 - **_Conocido_**: Esta característica se refiere a si el agente conoce como opera el entorno, es decir, las reglas. En el RPS se dan los resultados para todas las acciones tomadas, es decir, se saben las posibilidades de resultados.
 
 
-2.**Identificación del agente y estructura**
+## 2.**Identificación del agente y estructura**
 
 En este apartado se elige el tipo de agente que vamos a emplear para programar las decisiones a tomar en el RPS. En el apartado 2.4 del libro se explican varios tipos de agentes y debemos escoger uno de ahí.
 
@@ -57,7 +62,7 @@ La estructura de nuestro agente adaptada al RPS seria la siguiente:
 Primero el agente observa el entorno del RPS. En base al historial de juegos analizamos y sabemos el estado actual del juego: el numero total de rondas jugadas, que movimientos uso el rival, la frecuencia y posibles patrones de jugadas. Con esta información, a través de un algoritmo se intenta predecir el movimiento que nuestro oponente utilizará. Una vez sabiendo la jugada del rival nos falta saber que jugada deberíamos hacer, para eso habría que aplicar las reglas del RPS y saber que movimiento es el que nos dará la victoria. Sabiendo el movimiento del rival y el que el agente debe tomar solo nos queda actuar para conocer el estado en el que se queda el entorno.
 
 
-3.**Implementación en Python**
+## 3.**Implementación en Python**
 
 El código implementado en src/RPS_implementacion funciona de la siguiente manera:
 
@@ -67,7 +72,7 @@ Esta estrategia es sencilla y tiene el problema de que el rival se de cuenta de 
 
 El código sigue los principios SOLID y se podria extender la lógica a versiones más complejas del RPS.
 
-4.**Extensión ao RPS + Lizzard Spock**
+## 4.**Extensión ao RPS + Lizzard Spock**
 
 El código implementado en src/RPS_LizzardSpock es una extensión del RPS_Implementacion donde se agregan 2 variables de juego más, el lizzard y el spock. Ahora el juego tiene muchas más combinaciones de jugadas ya que un elemento gana a otros 2. Por esta razón el código necesita un diccionario donde se almacena cada elemento y sus 2 elementos a los que gana. También se necesitaba que la función que determina al ganador "asses_game" ahora emplease este diccionario, de forma que fuera un código sencillo de extender a múltiples nuevos elementos. Este cambio en la forma de manejar las victorias también se aplicará en el código original RPS_Implementación.
 
