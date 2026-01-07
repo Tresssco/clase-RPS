@@ -8,6 +8,12 @@ class GameAction(IntEnum):
     Paper = 1
     Scissors = 2
 
+WIN_RULES = {
+    GameAction.Rock:     GameAction.Scissors,
+    GameAction.Paper:    GameAction.Rock,
+    GameAction.Scissors: GameAction.Paper
+}
+
 class Agent:
     def __init__(self):
         self.user_history = []
@@ -47,35 +53,19 @@ class ModelBasedReflexStrategy:
 agent_state = Agent()
 strategy = ModelBasedReflexStrategy()
 
-def assess_game(user_action, computer_action):
+def assess_game(user_action: GameAction, computer_action: GameAction) -> str:
+
     if user_action == computer_action:
-        print(f"User and computer picked {user_action.name}. Draw game!")
+        print(f"Both picked {user_action.name}. Draw!")
         return "draw"
 
-    elif user_action == GameAction.Rock:
-        if computer_action == GameAction.Scissors:
-            print("Rock smashes scissors. You won!")
-            return "loss"  # perspectiva del computador
-        else:
-            print("Paper covers rock. You lost!")
-            return "win"
+    if WIN_RULES[user_action] == computer_action:
 
-    elif user_action == GameAction.Paper:
-        if computer_action == GameAction.Rock:
-            print("Paper covers rock. You won!")
-            return "loss"
-        else:
-            print("Scissors cuts paper. You lost!")
-            return "win"
-
-    elif user_action == GameAction.Scissors:
-        if computer_action == GameAction.Rock:
-            print("Rock smashes scissors. You lost!")
-            return "win"
-        else:
-            print("Scissors cuts paper. You won!")
-            return "loss"
-
+        print(f"{user_action.name} beats {computer_action.name}. You won!")
+        return "loss"
+    else:
+        print(f"{computer_action.name} beats {user_action.name}. You lost!")
+        return "win"
 
 def get_computer_action():
     computer_action = strategy.choose_action(agent_state)
