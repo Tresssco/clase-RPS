@@ -69,6 +69,6 @@ El código sigue los principios SOLID y se podria extender la lógica a versione
 
 4.**Extensión ao RPS + Lizzard Spock**
 
-- Estende a lóxica do axente para xogar á versión "pedra, papel, tesoiras, lagarto, Spock" correctamente, mantendo a calidade do código e a coherencia co tipo de axente seleccionado. 
+El código implementado en src/RPS_LizzardSpock es una extensión del RPS_Implementacion donde se agregan 2 variables de juego más, el lizzard y el spock. Ahora el juego tiene muchas más combinaciones de jugadas ya que un elemento gana a otros 2. Por esta razón el código necesita un diccionario donde se almacena cada elemento y sus 2 elementos a los que gana. También se necesitaba que la función que determina al ganador "asses_game" ahora emplease este diccionario, de forma que fuera un código sencillo de extender a múltiples nuevos elementos. Este cambio en la forma de manejar las victorias también se aplicará en el código original RPS_Implementación.
 
-- A documentación no README do proxecto en GitHub/GitLab deber estar completa seguindo a orde especificada nesta rúbrica, explicando o problema, a contorna de tarefas, a estrutura do axente, a implementación e a extensión, cun formato Markdown axeitado.
+La estrategia se mantiene igual.
